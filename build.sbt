@@ -1,8 +1,8 @@
-import com.typesafe.sbt.pgp.PgpKeys
+import aether.Aether._
 
 releaseSettings
 
-ReleaseKeys.publishArtifactsAction := PgpKeys.publishSigned.value
+aetherPublishBothSettings
 
 name := "linx"
 
@@ -24,12 +24,10 @@ licenses := Seq("Apache 2" -> url("http://www.apache.org/licenses/LICENSE-2.0"))
 
 publishMavenStyle := true
 
-publishTo <<= version { (v: String) =>
-  val nexus = "https://oss.sonatype.org/"
-  if (v.trim.endsWith("SNAPSHOT"))
-    Some("snapshots" at nexus + "content/repositories/snapshots")
-  else
-    Some("releases"  at nexus + "service/local/staging/deploy/maven2")
+publishTo <<= version { v =>
+  val proxy = "http://mavenproxy.finntech.no/finntech-internal-"
+  val end = if(v endsWith "SNAPSHOT") "snapshot" else "release"
+  Some("Finn-" + end at proxy + end)
 }
 
 publishArtifact in Test := false
