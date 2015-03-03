@@ -1,1 +1,1 @@
-version in ThisBuild := "0.3-penger"
+version in ThisBuild := "0.4-penger-SNAPSHOT"
